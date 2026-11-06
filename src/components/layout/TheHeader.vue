@@ -28,12 +28,12 @@ defineProps(["isSidebarOpen"]);
 
 <style scoped>
 #header {
-  height: 75px;
   background-color: var(--layout-background-color);
   border-bottom: 1px solid var(--layout-border-color);
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding-block: calc(var(--spacing) * 3);
+  padding-inline: calc(var(--spacing) * 6);
 }
 
 .page-header {

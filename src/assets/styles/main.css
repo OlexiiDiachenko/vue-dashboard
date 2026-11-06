@@ -38,3 +38,7 @@ button {
 .pd-3 {
   padding: calc(var(--spacing) * 3);
 }
+
+.br-10 {
+  border-radius: 10px;
+}

@@ -5,7 +5,11 @@ interface Report {
   leadHeader: string;
   result: number;
   description: string;
+  color?: string;
 }
+
+const getColor = (result: number): string =>
+  result > 0 ? "var(--green-text-color)" : "var(--red-text-color)";
 
 const reports: Report[] = [
   {
@@ -17,11 +21,13 @@ const reports: Report[] = [
     leadHeader: "Hello World",
     result: 5,
     description: "Foobar",
+    color: "var(--blue-text-color)",
   },
   {
     leadHeader: "Hello World",
     result: 5,
     description: "Foobar",
+    color: "var(--purple-text-color)",
   },
   {
     leadHeader: "Hello World",
@@ -38,6 +44,7 @@ const reports: Report[] = [
         :leadHeader="report.leadHeader"
         :result="report.result"
         :description="report.description"
+        :color="report.color ? report.color : getColor(report.result)"
       />
     </template>
   </section>

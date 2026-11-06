@@ -45,12 +45,16 @@ const abb = name
       </div>
     </div>
     <ul class="route-list flex">
-      <li v-for="(page, index) in pages" :key="index" class="route-item flex">
+      <li
+        v-for="(page, index) in pages"
+        :key="index"
+        class="route-item flex br-10"
+      >
         <component :is="page.icon" />
         {{ page.title }}
       </li>
     </ul>
-    <div class="user-wrapper pd-3">
+    <div class="user-wrapper">
       <div class="user pd-3">
         <div class="user-role">Role: {{ role }}</div>
         <div class="user-name flex">
@@ -102,7 +106,6 @@ const abb = name
 }
 
 .route-item {
-  border-radius: 10px;
   align-items: center;
   column-gap: 10px;
   cursor: pointer;
@@ -116,9 +119,9 @@ const abb = name
 
 .user-wrapper {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: calc(var(--spacing) * 6);
+  left: calc(var(--spacing) * 6);
+  right: calc(var(--spacing) * 6);
 }
 
 .user {
