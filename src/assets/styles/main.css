@@ -1,0 +1,40 @@
+@import "./_variables.css";
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&display=swap");
+
+body,
+body * {
+  font-family: Roboto, Sora, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+  background: none;
+}
+
+ul {
+  list-style: none;
+}
+
+body {
+  color: var(--main-text-color);
+}
+
+button {
+  cursor: pointer;
+}
+
+.flex {
+  display: flex;
+}
+
+.grid {
+  display: grid;
+}
+
+.pd-6 {
+  padding: calc(var(--spacing) * 6);
+}
+
+.pd-3 {
+  padding: calc(var(--spacing) * 3);
+}
