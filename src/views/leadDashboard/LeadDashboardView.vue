@@ -1,37 +1,31 @@
 <script lang="ts" setup>
 import LeadReportComponent from "./components/LeadReportComponent.vue";
-
-interface Report {
-  leadHeader: string;
-  result: number;
-  description: string;
-  color?: string;
-}
+import type { Report } from "@/types/leadDashboard.type.ts";
 
 const getColor = (result: number): string =>
   result > 0 ? "var(--green-text-color)" : "var(--red-text-color)";
 
 const reports: Report[] = [
   {
-    leadHeader: "Hello World",
-    result: 5,
+    leadHeader: "Total Leads",
+    result: 6,
     description: "Foobar",
   },
   {
-    leadHeader: "Hello World",
-    result: 5,
+    leadHeader: "New Leads",
+    result: 2,
     description: "Foobar",
     color: "var(--blue-text-color)",
   },
   {
-    leadHeader: "Hello World",
-    result: 5,
+    leadHeader: "Qualified",
+    result: 1,
     description: "Foobar",
     color: "var(--purple-text-color)",
   },
   {
-    leadHeader: "Hello World",
-    result: 5,
+    leadHeader: "Converted",
+    result: 1,
     description: "Foobar",
   },
 ];
