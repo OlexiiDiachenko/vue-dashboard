@@ -2,22 +2,7 @@ import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import { type Order } from "@/types";
 import { getDashboardDateRange } from "@/utils/dateService";
-import { type DateRange } from "@/types/leadDashboard.type";
-
-const weekStats = (
-  orders: Order[],
-  range: DateRange,
-): { totalSum: number; count: number } => {
-  const filterd = orders.filter((order) => {
-    const orderDate = new Date(order.date);
-    return orderDate >= range.start && orderDate <= range.end;
-  });
-
-  return {
-    totalSum: filterd.reduce((sum, order) => sum + order.amount, 0),
-    count: filterd.length,
-  };
-};
+import { orderService } from "@/utils/orderService";
 
 export const useOrderStore = defineStore("orders", () => {
   const orders = ref<Order[]>([
@@ -97,7 +82,7 @@ export const useOrderStore = defineStore("orders", () => {
       source: "Instagram",
       product: "A2 Charcoal",
       status: "in process",
-      date: "2026-05-30",
+      date: "2026-10-30",
       contact: "+49 170 87 64 123",
       amount: 650,
     },
@@ -117,7 +102,7 @@ export const useOrderStore = defineStore("orders", () => {
       source: "Facebook",
       product: "A1 Oil",
       status: "new",
-      date: "2026-11-01",
+      date: "2026-11-02",
       contact: "+49 170 87 64 123",
       amount: 350,
     },
@@ -201,13 +186,84 @@ export const useOrderStore = defineStore("orders", () => {
       contact: "+49 170 87 64 123",
       amount: 400,
     },
+    {
+      id: 19,
+      name: "Dorian Gray",
+      source: "Facebook",
+      product: "A4 Oil",
+      status: "new",
+      date: "2026-11-04",
+      contact: "+49 170 87 64 123",
+      amount: 800,
+    },
+    {
+      id: 20,
+      name: "Dorian Gray",
+      source: "Facebook",
+      product: "A4 Oil",
+      status: "new",
+      date: "2026-11-04",
+      contact: "+49 170 87 64 123",
+      amount: 800,
+    },
+    {
+      id: 21,
+      name: "Dorian Gray",
+      source: "Facebook",
+      product: "A4 Oil",
+      status: "new",
+      date: "2026-11-04",
+      contact: "+49 170 87 64 123",
+      amount: 800,
+    },
+    {
+      id: 22,
+      name: "Jane Austen",
+      source: "Facebook",
+      product: "A1 Oil",
+      status: "new",
+      date: "2026-10-27",
+      contact: "+49 170 87 64 123",
+      amount: 550,
+    },
+    {
+      id: 23,
+      name: "Jane Austen",
+      source: "Facebook",
+      product: "A1 Oil",
+      status: "new",
+      date: "2026-10-27",
+      contact: "+49 170 87 64 123",
+      amount: 550,
+    },
+    {
+      id: 24,
+      name: "Jane Austen",
+      source: "Facebook",
+      product: "A1 Oil",
+      status: "new",
+      date: "2026-10-27",
+      contact: "+49 170 87 64 123",
+      amount: 550,
+    },
   ]);
 
   const ranges = getDashboardDateRange();
   const currentWeekStats = computed(() =>
-    weekStats(orders.value, ranges.currentWeek),
+    orderService.weekStats(orders.value, ranges.currentWeek),
   );
   const lastWeekStats = computed(() =>
-    weekStats(orders.value, ranges.lastWeek),
+    orderService.weekStats(orders.value, ranges.lastWeek),
   );
+
+  const differenceStats = computed(() =>
+    orderService.difference(currentWeekStats.value, lastWeekStats.value),
+  );
+
+  return {
+    orders,
+    currentWeekStats,
+    lastWeekStats,
+    differenceStats,
+  };
 });

@@ -9,8 +9,9 @@ export interface DashboardRanges {
 }
 
 export interface Report {
-  leadHeader: string;
+  orderHeader: string;
+  meaning: string;
   result: number;
   description: string;
-  color?: string;
+  variable: number;
 }

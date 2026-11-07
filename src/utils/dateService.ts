@@ -1,4 +1,4 @@
-import type { DashboardRanges } from "@/types/leadDashboard.type";
+import type { DashboardRanges } from "@/types/ordersDashboard.type";
 
 export const getDashboardDateRange = (): DashboardRanges => {
   const today = new Date();

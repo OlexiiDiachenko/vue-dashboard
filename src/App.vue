@@ -3,7 +3,7 @@ import { ref } from "vue";
 
 import TheHeader from "./components/layout/TheHeader.vue";
 import TheSidebar from "./components/layout/TheSidebar.vue";
-import LeadDashboardView from "./views/leadDashboard/LeadDashboardView.vue";
+import OrderDashboardView from "./views/leadDashboard/OrderDashboardView.vue";
 
 const sidebarOpen = ref(false);
 </script>
@@ -17,7 +17,7 @@ const sidebarOpen = ref(false);
         @toogle="sidebarOpen = !sidebarOpen"
       />
       <main id="main" class="pd-6">
-        <LeadDashboardView />
+        <OrderDashboardView />
       </main>
     </div>
   </div>
