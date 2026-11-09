@@ -8,3 +8,8 @@ export interface Order {
   contact: string;
   amount: number;
 }
+
+export interface Option {
+  placeholder: string;
+  option: string;
+}

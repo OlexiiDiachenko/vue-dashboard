@@ -3,7 +3,7 @@ import { ref } from "vue";
 
 import TheHeader from "./components/layout/TheHeader.vue";
 import TheSidebar from "./components/layout/TheSidebar.vue";
-import OrderDashboardView from "./views/leadDashboard/OrderDashboardView.vue";
+import OrderDashboardView from "./views/orderDashboard/OrderDashboardView.vue";
 
 const sidebarOpen = ref(false);
 </script>
@@ -16,7 +16,7 @@ const sidebarOpen = ref(false);
         :is-sidebar-open="sidebarOpen"
         @toogle="sidebarOpen = !sidebarOpen"
       />
-      <main id="main" class="pd-6">
+      <main id="main" class="pd-6 flex">
         <OrderDashboardView />
       </main>
     </div>
@@ -33,5 +33,7 @@ const sidebarOpen = ref(false);
 #main {
   background-color: var(--layout-main-background-color);
   flex: 1;
+  flex-direction: column;
+  row-gap: calc(var(--spacing) * 8);
 }
 </style>
