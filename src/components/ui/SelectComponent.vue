@@ -1,67 +1,78 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { type Option } from "@/types";
-import { ChevronDown } from "lucide-vue-next";
+import { ChevronDown, ChevronUpIcon } from "lucide-vue-next";
 
 const props = defineProps<{
-  placeholder: String;
-  list: Array<Option>;
-  selectedOption: String;
+  defaultPlaceholder: String;
+  options: Array<Option>;
+  selectedOption: Option;
 }>();
 
 const emits = defineEmits<{
-  chooseOption: [name: string];
+  chooseOption: [options: Option, selectedOption: Option];
 }>();
 
 const isOpen = ref(false);
+
+function selectOption(selectedOption: Option, option: Option) {
+  selectedOption.option = option.option;
+  selectedOption.placeholder = option.placeholder;
+}
 </script>
 
 <template>
-  <section class="select" @click="isOpen = !isOpen" :class="{ open: isOpen }">
-    <div class="placeholder">{{ placeholder }}</div>
-    <ul class="options">
-      <li class="option" @click="$emit('chooseOption', `${placeholder}`)">
-        --
-      </li>
-      <li
-        class="option"
-        v-for="(listItem, index) in list"
-        :key="index"
-        @click="$emit('chooseOption', `${listItem.option}`)"
+  <div class="wrapper" @click="isOpen = !isOpen">
+    <div class="select pd-3 br-10" :class="{ open: isOpen }">
+      <span v-if="selectedOption.option == ''" class="placeholder">
+        {{ defaultPlaceholder }}</span
       >
-        {{ listItem.placeholder }}
-      </li>
-    </ul>
+      <span v-else class="placeholder">{{ selectedOption.placeholder }}</span>
 
-    <ChevronDown class="chevronDown" />
-  </section>
+      <ul class="options">
+        <li
+          v-for="(option, index) in options"
+          :key="index"
+          class="option"
+          :class="[selectedOption.option === option.option ? 'active' : '']"
+          @click="selectOption(selectedOption, option)"
+        >
+          {{ option.placeholder }}
+        </li>
+      </ul>
+    </div>
+
+    <ChevronDown v-if="!isOpen" class="chevron" />
+    <ChevronUpIcon v-else class="chevron" />
+  </div>
 </template>
 
 <style scoped>
-.select {
+.wrapper {
+  flex: 1;
   position: relative;
-  padding-block: calc(var(--spacing) * 2);
-  padding-right: calc(var(--spacing) * 8);
-  padding-left: calc(var(--spacing) * 4);
-  z-index: 5;
+}
+
+.select {
   font-size: 1rem;
   border: 1px solid var(--layout-sidebar-main-color);
-  border-radius: 10px;
-  flex: 1;
+  cursor: pointer;
+  position: relative;
 }
 
 .options {
+  flex-direction: column;
   position: absolute;
   bottom: 5px;
   left: 0;
+  right: 0;
+  transform: translateY(100%);
+  border: 1px solid var(--layout-sidebar-main-color);
+  background-color: var(--layout-main-color);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   z-index: 1;
   display: none;
-  flex-direction: column;
-  width: 100%;
-  background-color: var(--layout-main-color);
-  border: 1px solid var(--layout-border-color);
-  border-radius: 10px;
-  transform: translateY(100%);
 }
 
 .select.open .options {
@@ -69,22 +80,26 @@ const isOpen = ref(false);
 }
 
 .option {
-  font-size: 1rem;
-  padding-block: calc(var(--spacing) * 1);
-  padding-inline: calc(var(--spacing) * 2);
-  transition: background-color 0.2s ease-in-out;
-  cursor: pointer;
+  font-size: calc(var(--spacing) * 3);
+  padding-block: calc(var(--spacing) * 2);
+  padding-inline: calc(var(--spacing) * 3);
 }
 
+.option:last-child {
+  border-radius: inherit;
+}
+
+.option.active,
 .option:hover {
+  color: #ffffff;
   background-color: var(--accent-blue);
 }
 
-.chevronDown {
+.chevron {
   position: absolute;
-  right: calc(var(--spacing) * 2);
   top: 50%;
+  right: 5px;
   transform: translateY(-50%);
-  z-index: 2;
+  cursor: pointer;
 }
 </style>
