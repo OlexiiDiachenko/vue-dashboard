@@ -1,22 +1,21 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+
 import OrderReportComponent from "./components/OrderReportComponent.vue";
-import { useReports } from "@/constants/useReportConstant.ts";
 import OrdersFilterComponent from "./components/OrdersFilterComponent.vue";
+import OrderTableComponent from "./components/OrderTableComponent.vue";
+
+import { useReports } from "@/constants/useReportConstant.ts";
+import { orderDashboardService } from "@/utils/orderDashboardService.ts";
 import { type Option } from "@/types";
-import { useOrderStore } from "@/storage/orderStore";
 
-const orderStore = useOrderStore();
-
-const getColor = (result: number): string => {
-  if (result > 90) {
-    return "var(--green-text-color)";
-  } else if (result > 60) {
-    return "var(--purple-text-color)";
-  } else {
-    return "var(--red-text-color)";
-  }
-};
+const getColor = (result: number) =>
+  orderDashboardService.getColor(
+    result,
+    "var(--green-text-color)",
+    "var(--purple-text-color)",
+    "var(--red-text-color)",
+  );
 
 const { reports } = useReports();
 
@@ -31,11 +30,13 @@ const selectedStatus = ref<Option>({
   option: "",
 });
 
-const filteredOrders = orderStore.thisWeekOrders(
-  nameFilter.value,
-  selectedSource.value.option,
-  selectedStatus.value.option,
-);
+const filteredOrders = computed(() => {
+  return orderDashboardService.filteredOrders(
+    nameFilter.value,
+    selectedSource.value.option,
+    selectedStatus.value.option,
+  );
+});
 </script>
 
 <template>
@@ -51,39 +52,14 @@ const filteredOrders = orderStore.thisWeekOrders(
     </template>
   </section>
   <OrdersFilterComponent
+    v-model="nameFilter"
     :nameFilter="nameFilter"
     :selectedSource="selectedSource"
     :selectedStatus="selectedStatus"
   />
 
-  <div class="table br-10">
-    <table>
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>name</th>
-          <th>source</th>
-          <th>product</th>
-          <th>status</th>
-          <th>date</th>
-          <th>contact</th>
-          <th>amount</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(option, index) in filteredOrders" :key="index">
-          <th>{{ option.id }}</th>
-          <th>{{ option.name }}</th>
-          <th>{{ option.source }}</th>
-          <th>{{ option.product }}</th>
-          <th>{{ option.status }}</th>
-          <th>{{ option.date }}</th>
-          <th>{{ option.contact }}</th>
-          <th>{{ option.amount }}</th>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <OrderTableComponent :filteredOrders="filteredOrders" />
+  <!-- :tableHeader="orderDashboardService.getKeys" -->
 </template>
 
 <style scoped>

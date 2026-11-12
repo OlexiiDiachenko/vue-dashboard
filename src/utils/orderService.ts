@@ -15,12 +15,6 @@ interface DifferenceStats {
   differenceARPC: number;
 }
 
-interface Params {
-  name: string;
-  source: string;
-  status: string;
-}
-
 export const orderService = {
   weekStats(orders: Order[], range: DateRange): WeekStats {
     const filterd = orders.filter((order) => {
@@ -63,16 +57,5 @@ export const orderService = {
       differenceOfUniqueClients,
       differenceARPC,
     };
-  },
-
-  weekOrders(orders: Order[], params: Params): Order[] {
-    const filteredOrders = orders.filter(
-      (o) =>
-        o.name.includes(params.name) &&
-        o.source.includes(params.source) &&
-        o.status.includes(params.status),
-    );
-
-    return filteredOrders;
   },
 };

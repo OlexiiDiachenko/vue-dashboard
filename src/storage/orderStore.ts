@@ -260,15 +260,10 @@ export const useOrderStore = defineStore("orders", () => {
     orderService.difference(currentWeekStats.value, lastWeekStats.value),
   );
 
-  const thisWeekOrders = (name: string, source: string, status: string) => {
-    return orderService.weekOrders(orders.value, { name, source, status });
-  };
-
   return {
     orders,
     currentWeekStats,
     lastWeekStats,
     differenceStats,
-    thisWeekOrders,
   };
 });
